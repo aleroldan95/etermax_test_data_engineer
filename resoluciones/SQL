@@ -1,0 +1,57 @@
+a- Generar una tabla, con el listado de todos los Movimientos, con el siguiente contenido
+. Fecha
+. Descripción de Cliente
+. Descripción de Proveedor
+. Descripción de Producto
+. Descripcion de Marca
+. Cantidad
+. Costo
+. Venta
+. Ganancia Neta
+
+CREATE TABLE Movements AS (
+    SELECT
+        fecha,
+        cl.descripcion as descripcion_cliente,
+        prov.descripcion as descipcion_proveedor,
+        pr.descripcion as descripcion_producto,
+        m.descripcion as descripcion_marca,
+        cantidad,
+        costo,
+        venta,
+        venta-costo as ganacia_neta
+    FROM Data_Movimientos as mov
+    LEFT JOIN Data_Clientes as cl on mov.cod_cliente=cl.cod_cliente
+    LEFT JOIN Data_Productos as pr on mov.cod_prod=pr.cod_prod
+    LEFT JOIN Data_Marcas as m on pr.cod_marca=m.cod_marca
+    LEFT JOIN Data_Proveedores as prov on pr.cod_proveedor=prov.cod_proveedor
+    )
+    WITH DATE PRIMARY INDEX (fecha)
+
+b- Mostrar un listado de todas las Marcas que no tuvieron Ventas.
+
+SELECT
+    cod_marca,
+    descripcion
+FROM Data_Marcas
+WHERE cod_marca NOT IN (SELECT
+                            DISTINCT m.cod_marca
+                        FROM Data_Movimientos mov
+                        INNER JOIN Data_Productos pr on mov.cod_prod=pr.cod_prod
+                        INNER JOIN Data_Marcas m on pr.cod_marca=m.cod_marca)
+
+c- En base a la tabla generada en a, consultar, ordenando por fecha y descripción del cliente:
+. Fecha
+. Descripción de Cliente
+. Ganancia Neta Acumulada en las últimas 7 operaciones
+La idea del punto c es, dado un cliente y una fecha de operación, mostrar la sumatoria de las
+ganancias derivadas de las últimas siete operaciones que haya realizado.
+
+SELECT
+    fecha,
+    descripcion_cliente,
+    sum(ganancia_neta) over (order by fecha rows between 6 preceding and current row) ganacia_acumulada_ultimas_7_operaciones
+FROM Movements
+order by fecha, descripcion_cliente
+
+
