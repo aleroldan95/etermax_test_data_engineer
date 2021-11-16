@@ -1,7 +1,8 @@
-Ejercicio 3 - Preguntas en general (Soluciones de pocas líneas)
 
 Tengo casi nula experiencia en AWS y linux
 
+
+Ejercicio 3 - Preguntas en general (Soluciones de pocas líneas)
 a- ¿Qué formas de hacer scheduling de una tarea en linux conoce?
 
 Con crontab, agregando la periodicidad en formato * * * * * y luego la ubicación del archivo con el código
@@ -27,4 +28,6 @@ predictivos, además de hacer algunos análisis ad-hoc en SQL a un precio razona
 tanto infraestructura como costos de consultas ¿Que tipo de solución propondría para poder
 consultar los datos usando servicios cloud en AWS? Intentar ser lo más descriptivo posible.
 
-Desconozco de AWS, tengo que hacer los cursos
+Desconozco de AWS, tengo que hacer los cursos.
+Igualmente se podría reducir la tabla, preguntando si realmente son necesarias todas las columnas o la
+posibilidad de armar una muestra de la misma, reduciendo considerablemente la cantidad de filas
